@@ -30,8 +30,7 @@ recordRoutes.route("/sorted").get(async function (req, res) {
   const dbConnect = dbo.getDb();
   sort = {'_id': -1}
   dbConnect
-    .collection("tweet")
-    .find({}).sort({ranking:1}).limit(50)
+    .collection("tweet").find({}).sort({ranking:1}).limit(50)
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching listings!");
