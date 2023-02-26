@@ -12,7 +12,23 @@ const dbo = require("../db/conn");
 recordRoutes.route("/listings").get(async function (req, res) {
   // Get records
   const dbConnect = dbo.getDb();
+  sort = {'_id': -1}
+  dbConnect
+    .collection("tweet")
+    .find({}).sort(sort).limit(50)
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching listings!");
+     } else {
+        res.json(result);
+      }
+    });
 
+});
+recordRoutes.route("/sorted").get(async function (req, res) {
+  // Get records
+  const dbConnect = dbo.getDb();
+  sort = {'_id': -1}
   dbConnect
     .collection("tweet")
     .find({}).sort({ranking:1}).limit(50)
@@ -26,9 +42,13 @@ recordRoutes.route("/listings").get(async function (req, res) {
 
 });
 
+
 // This section will help you create a new record.
-recordRoutes.route("/listings/recordSwipe").post(function (req, res) {
+recordRoutes.route("/listings/recordSwipe").post(async function (req, res) {
   // Insert swipe informations
+  
+  const result = await dbo.db("railway_db").collection("tweet_replies").insertOne({});
+  console.log(`New tweet reply created with the following id: ${result.insertedId}`);
 });
 
 // This section will help you update a record by id.
