@@ -15,7 +15,7 @@ recordRoutes.route("/listings").get(async function (req, res) {
   sort = {'_id': -1}
   dbConnect
     .collection("tweet")
-    .find({}).sort(sort).limit(50)
+    .find({}).sort({ranking:1}).limit(50)
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching listings!");
