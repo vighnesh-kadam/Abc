@@ -1,5 +1,8 @@
   const express = require("express");
+  const  ObjectID = require('mongodb').ObjectId;
+// Use bodyParser middleware
 
+  //app.use(bodyParser.urlencoded({ extended: false }))
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /listings.
@@ -44,10 +47,17 @@ recordRoutes.route("/sorted").get(async function (req, res) {
 
 // This section will help you create a new record.
 recordRoutes.route("/listings/recordSwipe").post(async function (req, res) {
-  // Insert swipe informations
+  // Insert swipe informations]
+  console.log("hell");
+  console.log(req.body);
+  const dbConnect = dbo.getDb();
+   dbConnect.collection("tweet").updateOne(
+    { "_id": ObjectID(req.body.id) },
+    { "$push": { "reply": req.body.reply } }
+  )
   
-  const result = await dbo.db("railway_db").collection("tweet_replies").insertOne({});
-  console.log(`New tweet reply created with the following id: ${result.insertedId}`);
+  //const result = await dbo.db("railway_db").collection("tweet_replies").insertOne({});
+  //console.log(`New tweet reply created with the following id: ${result.insertedId}`);
 });
 
 // This section will help you update a record by id.
