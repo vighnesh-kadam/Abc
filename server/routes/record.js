@@ -12,7 +12,7 @@ const recordRoutes = express.Router();
 const dbo = require("../db/conn");
 
 // This section will help you get a list of all the records.
-recordRoutes.route("/listings").get(async function (req, res) {
+recordRoutes.route("/tweets").get(async function (req, res) {
   // Get records
   const dbConnect = dbo.getDb();
   sort = {'_id': -1}
@@ -46,14 +46,15 @@ recordRoutes.route("/sorted").get(async function (req, res) {
 
 
 // This section will help you create a new record.
-recordRoutes.route("/listings/recordSwipe").post(async function (req, res) {
+recordRoutes.route("/tweets/reply").post(async function (req, res) {
   // Insert swipe informations]
   console.log("hell");
   console.log(req.body);
   const dbConnect = dbo.getDb();
    dbConnect.collection("tweet").updateOne(
-    { "_id": ObjectID(req.body.id) },
-    { "$push": { "reply": req.body.reply } }
+    { "_id": ObjectID(req.body.id)},
+       {"$set":{"responded":true},
+     "$push": { "reply": req.body.reply } }
   )
   
   //const result = await dbo.db("railway_db").collection("tweet_replies").insertOne({});
