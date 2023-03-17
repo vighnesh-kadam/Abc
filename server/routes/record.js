@@ -44,6 +44,70 @@ recordRoutes.route("/sorted").get(async function (req, res) {
 
 });
 
+recordRoutes.route("/feedback/resp").get(async function (req, res) {
+  // Get records
+  const dbConnect = dbo.getDb();
+  sort = {'_id': -1}
+  dbConnect
+    .collection("tweet")
+    .find({prediction:"feedback",responded:true}).sort({ranking:1}).limit(50)
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching listings!");
+     } else {
+        res.json(result);
+      }
+    });
+
+});
+recordRoutes.route("/feedback/unresp").get(async function (req, res) {
+  // Get records
+  const dbConnect = dbo.getDb();
+  sort = {'_id': -1}
+  dbConnect
+    .collection("tweet")
+    .find({prediction:"feedback",responded:false}).sort({ranking:1}).limit(50)
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching listings!");
+     } else {
+        res.json(result);
+      }
+    });
+
+});
+recordRoutes.route("/emergency/resp").get(async function (req, res) {
+  // Get records
+  const dbConnect = dbo.getDb();
+  sort = {'_id': -1}
+  dbConnect
+    .collection("tweet")
+    .find({Type:"Emergency",responded:true}).sort({ranking:1}).limit(50)
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching listings!");
+     } else {
+        res.json(result);
+      }
+    });
+
+});
+recordRoutes.route("/emergency/unresp").get(async function (req, res) {
+  // Get records
+  const dbConnect = dbo.getDb();
+  sort = {'_id': -1}
+  dbConnect
+    .collection("tweet")
+    .find({Type:"Emergency",responded:false}).sort({ranking:1}).limit(50)
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching listings!");
+     } else {
+        res.json(result);
+      }
+    });
+
+});
 
 // This section will help you create a new record.
 recordRoutes.route("/tweets/reply").post(async function (req, res) {
