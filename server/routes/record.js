@@ -49,46 +49,100 @@ recordRoutes.route("/feedback/resp").get(async function (req, res) {
   // Get records
   const dbConnect = dbo.getDb();
   sort = {'_id': -1}
+
+  let {page,limit}=req.query;
+  page=parseInt(page)
+  limit=parseInt(limit)
+  
+  const count=await  dbConnect
+  .collection("tweet")
+  .find({prediction:"feedback",responded:true}).count()
+  const pages=Math.ceil(count/limit);
+  let skip=(page-1)*limit;
+
+ 
   dbConnect
     .collection("tweet")
-    .find({prediction:"feedback",responded:true}).sort({ranking:1}).limit(50)
+    .find({prediction:"feedback",responded:true}).sort({ranking:1}).skip(skip).limit(limit)
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching listings!");
      } else {
-        res.json(result);
+
+      return res.status(200).json({
+        title:"Success",
+        posts:result,
+        pages
+      })
       }
     });
+
 
 });
 recordRoutes.route("/feedback/unresp").get(async function (req, res) {
   // Get records
   const dbConnect = dbo.getDb();
   sort = {'_id': -1}
+
+  let {page,limit}=req.query;
+  page=parseInt(page)
+  limit=parseInt(limit)
+
+
+  const count=await  dbConnect
+  .collection("tweet")
+  .find({prediction:"feedback",responded:false}).count()
+  const pages=Math.ceil(count/limit);
+  let skip=(page-1)*limit;
+
+ 
   dbConnect
     .collection("tweet")
-    .find({prediction:"feedback",responded:false}).sort({ranking:1}).limit(50)
+    .find({prediction:"feedback",responded:false}).sort({ranking:1}).skip(skip).limit(limit)
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching listings!");
      } else {
-        res.json(result);
+
+      return res.status(200).json({
+        title:"Success",
+        posts:result,
+        pages
+      })
       }
     });
+
 
 });
 recordRoutes.route("/emergency/resp").get(async function (req, res) {
   // Get records
   const dbConnect = dbo.getDb();
   sort = {'_id': -1}
+  let {page,limit}=req.query;
+  page=parseInt(page)
+  limit=parseInt(limit)
+
+
+  const count=await  dbConnect
+  .collection("tweet")
+  .find({Type:"Emergency",responded:true}).count()
+  const pages=Math.ceil(count/limit);
+  let skip=(page-1)*limit;
+
+ 
   dbConnect
     .collection("tweet")
-    .find({Type:"Emergency",responded:true}).sort({ranking:1}).limit(50)
+    .find({Type:"Emergency",responded:true}).sort({ranking:1}).skip(skip).limit(limit)
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching listings!");
      } else {
-        res.json(result);
+
+      return res.status(200).json({
+        title:"Success",
+        posts:result,
+        pages
+      })
       }
     });
 
@@ -97,14 +151,32 @@ recordRoutes.route("/emergency/unresp").get(async function (req, res) {
   // Get records
   const dbConnect = dbo.getDb();
   sort = {'_id': -1}
+
+
+  let {page,limit}=req.query;
+  page=parseInt(page)
+  limit=parseInt(limit)
+
+
+  const count=await  dbConnect
+  .collection("tweet")
+  .find({Type:"Emergency",responded:false}).count()
+  const pages=Math.ceil(count/limit);
+  let skip=(page-1)*limit;
+
   dbConnect
     .collection("tweet")
-    .find({Type:"Emergency",responded:false}).sort({ranking:1}).limit(50)
+    .find({Type:"Emergency",responded:false}).sort({ranking:1}).skip(skip).limit(limit)
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching listings!");
      } else {
-        res.json(result);
+
+      return res.status(200).json({
+        title:"Success",
+        posts:result,
+        pages
+      })
       }
     });
 
