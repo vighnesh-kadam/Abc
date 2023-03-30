@@ -29,8 +29,10 @@ recordRoutes.route("/tweets").get(async function (req, res) {
 
 });
 
+
+
 recordRoutes.route("/sorted").get(async function (req, res) {
-  // Get records
+
   const dbConnect = dbo.getDb();
   sort = {'_id': -1}
   dbConnect
