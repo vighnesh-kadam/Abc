@@ -197,6 +197,10 @@ recordRoutes.route("/tweets/reply").post(async function (req, res) {
        {"$set":{"responded":true},
      "$push": { "reply": req.body.reply } }
   )
+
+  return res.status(200).json({
+    title: "Success",
+  });
   
   //const result = await dbo.db("railway_db").collection("tweet_replies").insertOne({});
   //console.log(`New tweet reply created with the following id: ${result.insertedId}`);
