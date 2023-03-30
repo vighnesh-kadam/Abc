@@ -13,9 +13,11 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 // app.use(cors());
-app.use(cors({
-  origin: 'https://railwaygrievances.netlify.app'
-}));
+// app.use(cors({
+//   origin: 'https://railwaygrievances.netlify.app'
+// }));
+
+app.use(cors({ credentials: true, origin: ['http://localhost:3001', 'https://railwaygrievances.netlify.app'] }));
 
 
 app.use((req, res, next) => {
@@ -34,6 +36,8 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(jsonParser,require("./routes/record"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 // Global error handling
 app.use(function (err, _req, res) {
