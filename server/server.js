@@ -22,7 +22,7 @@ app.use(cors({ credentials: true, origin: ['http://localhost:3001', 'https://rai
 
 app.use((req, res, next) => {
 
-  console.log("check",req.url,req)
+  
 
   res.header('Access-Control-Allow-Origin', 'https://railwaygrievances.netlify.app');
   res.header('Access-Control-Allow-Credentials', true);
