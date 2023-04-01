@@ -20,9 +20,9 @@ app.use((req, res, next) => {
 
   
 
-  // res.header('Access-Control-Allow-Origin', 'https://railwaygrievances.netlify.app');
-  res.setHeader('Access-Control-Allow-Origin', 'https://railwaygrievances.netlify.app');
-  res.append('Access-Control-Allow-Origin', 'http://localhost:3001');
+  res.header('Access-Control-Allow-Origin', 'https://railwaygrievances.netlify.app');
+  // res.setHeader('Access-Control-Allow-Origin', 'https://railwaygrievances.netlify.app');
+  // res.append('Access-Control-Allow-Origin', 'http://localhost:3001');
 
 
   res.header('Access-Control-Allow-Credentials', true);
