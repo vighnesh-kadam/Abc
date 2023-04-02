@@ -186,6 +186,51 @@ recordRoutes.route("/emergency/unresp").get(async function (req, res) {
 
 });
 
+
+recordRoutes.route("/tweets/analysis").get(async function (req, res) {
+
+  // const options = {
+  //   day: 'numeric',
+  //   month: 'numeric',
+  //   year: 'numeric',
+  //   timeZone: 'Asia/Kolkata'
+  // };
+  
+  // const d = new Date();
+  // const date = d.toLocaleString('en-US', options);
+
+  // console.log("Datee",date)
+
+
+  const dbConnect = dbo.getDb();
+
+  try {
+    const feedbackTweets = await dbConnect.collection("tweet").find({ prediction: "feedback" }).toArray();
+   
+
+    const emergencyTweets= await dbConnect.collection("tweet").find({ Type:"Emergency" }).toArray();
+
+
+    return res.status(200).json({
+      title: "Success",
+      feedback: feedbackTweets,
+      emergency: emergencyTweets
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      title: "Error",
+      message: "Internal server error"
+    });
+  }
+
+
+
+
+  
+
+});
+
 // This section will help you create a new record.
 recordRoutes.route("/tweets/reply").post(async function (req, res) {
   // Insert swipe informations]
@@ -202,18 +247,9 @@ recordRoutes.route("/tweets/reply").post(async function (req, res) {
     title: "Success",
   });
   
-  //const result = await dbo.db("railway_db").collection("tweet_replies").insertOne({});
-  //console.log(`New tweet reply created with the following id: ${result.insertedId}`);
+
 });
 
-// This section will help you update a record by id.
-recordRoutes.route("/listings/updateLike").post(function (req, res) {
-  // Update likes
-});
 
-// This section will help you delete a record
-recordRoutes.route("/listings/delete").delete((req, res) => {
-  // Delete documents
-});
 
 module.exports = recordRoutes;
